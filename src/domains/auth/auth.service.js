@@ -13,6 +13,8 @@ const { generateToken } = require("../../utils/jsonwebtoken");
  * @returns
  */
 const login = async (res, { email, password, persist }) => {
+  email = email.trim();
+  password = password.trim();
   // find user
   const user = await db.user.findOne({ where: { email } });
   if (!user) throw new HttpError(404, "User not found");
