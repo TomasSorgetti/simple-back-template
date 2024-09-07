@@ -26,10 +26,25 @@ const login = async (req, res) => {
  */
 const register = async (req, res) => {
   const { name, lastname, email, password } = req.body;
-
   try {
     const data = await service.register({ name, lastname, email, password });
     sendSuccessResponse(res, "Register success", data);
+  } catch (error) {
+    sendErrorResponse(res, error.message, error.status);
+  }
+};
+
+/**
+ * Resives the code, and verify the user
+ * @param {*} req
+ * @param {*} res
+ */
+const verifyUser = async (req, res) => {
+  const { email, code } = req.body;
+
+  try {
+    const data = await service.verifyUser({ email, code });
+    sendSuccessResponse(res, "Verify success", data);
   } catch (error) {
     sendErrorResponse(res, error.message, error.status);
   }
@@ -57,6 +72,7 @@ const refresh = async (req, res) => {
 module.exports = {
   login,
   register,
+  verifyUser,
   logout,
   refresh,
 };

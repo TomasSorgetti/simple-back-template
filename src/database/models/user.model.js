@@ -26,6 +26,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
+    verificationCode: {
+      type: Sequelize.INTEGER,
+      defaultValue: null,
+    },
   });
 
   return User;
