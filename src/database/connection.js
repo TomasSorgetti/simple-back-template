@@ -12,11 +12,6 @@ const sequelize = new Sequelize(
   }
 );
 
-module.exports = { sequelize };
-
-require("./models/user.model");
-require("./assosiations");
-
 sequelize
   .authenticate()
   .then(() => {
@@ -26,14 +21,11 @@ sequelize
     console.error("Unable to connect to the database:", err);
   });
 
-async function syncDatabase() {
-  try {
-    await sequelize.sync({ force: false });
-    console.log("Database & tables synchronized successfully.");
-  } catch (err) {
-    console.error("Unable to sync the database:", err);
-    throw err;
-  }
-}
+const db = {};
 
-module.exports.syncDatabase = syncDatabase;
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+db.user = require("./models/user.model")(sequelize, Sequelize);
+
+module.exports = db;
